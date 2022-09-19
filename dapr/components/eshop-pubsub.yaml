@@ -4,18 +4,45 @@ metadata:
   name: eshopondapr-pubsub
   namespace: eshop
 spec:
-  type: pubsub.rabbitmq
+#   type: pubsub.rabbitmq
+#   version: v1
+#   metadata:
+#   - name: host
+#     value: "amqp://rabbitmq:5672"
+#   - name: durable
+#     value: "false"
+#   - name: deletedWhenUnused
+#     value: "false"
+#   - name: autoAck
+#     value: "false"
+#   - name: reconnectWait
+#     value: "0"
+#   - name: concurrency
+#     value: parallel
+  type: pubsub.kafka
   version: v1
   metadata:
-  - name: host
-    value: "amqp://rabbitmq:5672"
-  - name: durable
+  - name: brokers # Required. Kafka broker connection setting
+    value: "kafka:9092"
+  # - name: consumerGroup # Optional. Used for input bindings.
+  #   value: "eshopondapr"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "none"
+  - name: authRequired
     value: "false"
-  - name: deletedWhenUnused
-    value: "false"
-  - name: autoAck
-    value: "false"
-  - name: reconnectWait
-    value: "0"
-  - name: concurrency
-    value: parallel
+  # - name: authType # Required.
+  #   value: "password"
+  # - name: saslUsername # Required if authType is `password`.
+  #   value: "kafka"
+  # - name: saslPassword # Required if authType is `password`.
+  #   value: "kafka"
+    # secretKeyRef:
+    #   name: Pubsub.KafkaSaslPasswordSecret
+    #   key: Pubsub.KafkaSaslPasswordSecret
+  - name: disableTls # Optional. Disable TLS. This is not safe for production!! You should read the `Mutual TLS` section for how to use TLS.
+    value: "true"
+
+auth:
+  secretStore: eshopondapr-secretstore

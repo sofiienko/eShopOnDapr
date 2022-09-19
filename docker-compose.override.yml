@@ -11,9 +11,9 @@ services:
     ports:
       - "5500:80"
 
-  rabbitmq:
-    ports:
-      - "5672:5672"
+  # rabbitmq:
+  #   ports:
+  #     - "5672:5672"
 
   redis:
     image: redis:alpine
